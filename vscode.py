@@ -54,7 +54,7 @@ class Actions:
         arg4: Any = NotSet,
         arg5: Any = NotSet,
     ):
-        """Execute command via vscode command server."""
+        """Execute vscode command <command_id>"""
         actions.user.run_rpc_command(
             command_id,
             arg1,
@@ -110,7 +110,7 @@ class Actions:
         arg4: Any = NotSet,
         arg5: Any = NotSet,
     ) -> Any:
-        """Execute command via vscode command server and return command output."""
+        """Execute vscode command <command_id> with return value"""
         return actions.user.run_rpc_command_get(
             command_id, arg1, arg2, arg3, arg4, arg5
         )
