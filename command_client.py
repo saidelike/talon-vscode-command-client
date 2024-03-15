@@ -11,19 +11,19 @@ from talon import Context, Module, actions, speech_system
 
 # Enable this when you are testing a neovim
 # Disable it when you don't want to test in neovim anymore
-TESTING = False
+TESTING = True
 
 # How old a request file needs to be before we declare it stale and are willing
 # to remove it
 STALE_TIMEOUT_MS = 60_000
-if TESTING:
-    STALE_TIMEOUT_MS = 99_999_999_999
+# if TESTING:
+#     STALE_TIMEOUT_MS = 99_999_999_999
 
 
 # The amount of time to wait for application to perform a command, in seconds
 RPC_COMMAND_TIMEOUT_SECONDS = 3.0
-if TESTING:
-    RPC_COMMAND_TIMEOUT_SECONDS = 99999999999.0
+# if TESTING:
+#     RPC_COMMAND_TIMEOUT_SECONDS = 99999999999.0
 
 # When doing exponential back off waiting for application to perform a command, how
 # long to sleep the first time
@@ -171,7 +171,7 @@ def run_command(
 
     # First, write the request to the request file, which makes us the sole
     # owner because all other processes will try to open it with 'x'
-    if TESTING:
+    if TESTING and "neovim-command-server" in str(communication_dir_path):
         print(f"Request: {json.dumps(request.to_dict())}")
     write_request(request, request_path)
 
@@ -188,7 +188,7 @@ def run_command(
 
     try:
         decoded_contents = read_json_with_timeout(response_path)
-        if TESTING:
+        if TESTING and "neovim-command-server" in str(communication_dir_path):
             print(f"Response: {decoded_contents}")
     finally:
         # NB: We remove response file first because we want to do this while we
